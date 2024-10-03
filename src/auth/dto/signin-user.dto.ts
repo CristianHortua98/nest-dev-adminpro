@@ -4,7 +4,7 @@ export class SignInUserDto{
 
     @IsString()
     @MinLength(4)
-    user: string;
+    username: string;
 
     @IsString()
     @MinLength(4)

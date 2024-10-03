@@ -2,6 +2,11 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
+import { DoctorsModule } from './doctors/doctors.module';
+import { HospitalsModule } from './hospitals/hospitals.module';
+import { CommonModule } from './common/common.module';
+import { TodoModule } from './todo/todo.module';
+import { UploadsModule } from './uploads/uploads.module';
 
 @Module({
   imports: [
@@ -18,7 +23,12 @@ import { AuthModule } from './auth/auth.module';
       autoLoadEntities: true,
       synchronize: true // SOLO USAR EN DESARROLLO
     }),
-    AuthModule
+    AuthModule,
+    DoctorsModule,
+    HospitalsModule,
+    CommonModule,
+    TodoModule,
+    UploadsModule
   ],
   controllers: [],
   providers: [],

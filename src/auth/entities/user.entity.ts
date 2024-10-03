@@ -1,5 +1,7 @@
 import { IsEmail } from "class-validator";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Doctor } from "src/doctors/entities/doctor.entity";
+import { Hospital } from "src/hospitals/entities/hospital.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('users')
 export class User{
@@ -17,7 +19,7 @@ export class User{
         type: 'varchar',
         length: 20
     })
-    user: string;
+    username: string;
 
     @Column({
         type: 'varchar',
@@ -37,7 +39,7 @@ export class User{
 
     @Column({
         type: 'varchar',
-        // select: false
+        select: false
     })
     password: string;
 
@@ -57,5 +59,17 @@ export class User{
         default: 1
     })
     is_active: number;
+
+    // @OneToMany(
+    //     () => Hospital,
+    //     hospital => hospital.user
+    // )
+    // hospitals: Hospital[];
+
+    // @OneToMany(
+    //     () => Doctor,
+    //     doctor => doctor.user
+    // )
+    // doctors: Doctor[];
 
 }

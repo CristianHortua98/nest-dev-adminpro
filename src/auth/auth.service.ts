@@ -24,33 +24,35 @@ export class AuthService {
 
   async signIn(signInUserDto: SignInUserDto): Promise<SignInResponse>{
 
-    const { user, password } = signInUserDto;
+    const { username, password } = signInUserDto;
 
     const infoUser = await this.userRepository.findOne({
-      where: {user: user},
-      // select: { id: true, name: true, user: true, }
+      where: {username: username},
+      select: { id: true, name: true, username: true, email: true, document: true, password: true, img: true, role: true, is_active: true}
     })
-
-
+    
+    
     if(!infoUser){
-      throw new UnauthorizedException(`User: ${user} not exist.`);
+      throw new UnauthorizedException(`User: ${username} not exist.`);
     }
-
+    
     //VALIDAR USUARIO ACTIVO
     if(infoUser.is_active !== 1){
-      throw new UnauthorizedException(`User: ${user} not activated.`);
+      throw new UnauthorizedException(`User: ${username} not activated.`);
     }
-
+    
     //VALIDAR CONTRASEÑA
     if(!bcrypt.compareSync(password, infoUser.password)){
       throw new UnauthorizedException(`Credentials not valid, password incorrect.`);
     }
-
+    
+    delete infoUser.password;
+    
     return {
       user: infoUser,
       token: this.getJwtToken({
         id: infoUser.id,
-        user: infoUser.user
+        username: infoUser.username
       })
     }
 
@@ -76,7 +78,7 @@ export class AuthService {
         user: newUser,
         token: this.getJwtToken({
           id: newUser.id,
-          user: newUser.user
+          username: newUser.username
         })
       }
 
@@ -118,7 +120,7 @@ export class AuthService {
   findAll() {
     return this.userRepository.find({
       where: {is_active: 1},
-      select: {id: true, name: true, user: true, email: true, document: true, img: true, role: true, is_active: true}
+      select: {id: true, name: true, username: true, email: true, document: true, img: true, role: true, is_active: true}
     });
   }
 

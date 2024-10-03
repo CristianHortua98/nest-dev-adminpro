@@ -10,7 +10,7 @@ export class AuthController {
 
   constructor(private readonly authService: AuthService){}
 
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @Post('create-user')
   createUser(@Body() createUserDto:CreateUserDto){
     return this.authService.createUser(createUserDto);

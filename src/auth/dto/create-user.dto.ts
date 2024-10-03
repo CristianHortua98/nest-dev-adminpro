@@ -9,7 +9,7 @@ export class CreateUserDto{
 
     @IsString()
     @MinLength(4)
-    user: string;
+    username: string;
 
 
     @IsString()

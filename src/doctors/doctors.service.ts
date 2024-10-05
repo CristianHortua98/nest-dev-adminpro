@@ -88,6 +88,11 @@ export class DoctorsService {
 
   }
 
+
+  async findOneDoctor(id: number){
+    return await this.doctorRepository.findOneBy({id: id});
+  }
+
   async findOne(id: number) {
     const doctor = await this.doctorRepository.find({
       select: {id: true, name: true, img: true},
@@ -137,6 +142,12 @@ export class DoctorsService {
       throw new BadRequestException(`Hospital not exist`);
     }
 
+    const doctorValid = await this.findOneDoctor(id);
+
+    if(!doctorValid){
+      throw new BadRequestException(`Doctor: ${id} not found.`);
+    }
+
     try{
 
       const doctorUpd = await this.doctorRepository.preload({
@@ -155,19 +166,20 @@ export class DoctorsService {
 
     }
 
-
-
   }
 
   async remove(id: number){
 
+    const doctor = await this.findOne(id);
+
+    // if(!doctor){
+    //   throw new BadRequestException(`Doctor: ${id} not found.`);
+    // }
+    if(doctor.length === 0){
+      throw new BadRequestException(`Doctor: ${id} not found.`);
+    }
+    
     try{
-
-      const doctor = await this.findOne(id);
-
-      if(!doctor){
-        throw new BadRequestException(`Doctor: ${id} not found.`);
-      }
 
       return this.doctorRepository.remove(doctor);
       

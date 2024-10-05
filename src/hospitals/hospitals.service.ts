@@ -64,6 +64,12 @@ export class HospitalsService {
 
     const user: User = request['user'];
 
+    const hospitalValid = await this.findOne(id);
+
+    if(!hospitalValid){
+      throw new BadRequestException(`Hospital ${id} not found`);
+    }
+
     try{
 
       const hospital = await this.hospitalRepository.preload({
@@ -84,14 +90,14 @@ export class HospitalsService {
   }
 
   async remove(id: number) {
+    
+    const hospital = await this.findOne(id);
+
+    if(!hospital){
+      throw new BadRequestException(`Hospital ${id} not found`);
+    }
 
     try{
-
-      const hospital = await this.findOne(id);
-
-      if(!hospital){
-        throw new BadRequestException(`Hospital ${id} not found`);
-      }
 
       return this.hospitalRepository.remove(hospital);
       

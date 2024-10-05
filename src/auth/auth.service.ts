@@ -10,6 +10,7 @@ import { SignInResponse } from './interfaces/signin-response.interfaces';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './interfaces/jwt-payload.interfaces';
 import { UserCreateReponse } from './interfaces/user-create.response.interface';
+import * as request from 'supertest';
 
 @Injectable()
 export class AuthService {
@@ -56,6 +57,29 @@ export class AuthService {
       })
     }
 
+
+  }
+
+  async checkToken(request: Request): Promise<SignInResponse>{
+
+    const user: User = request['user'];
+
+    const infoUser = await this.userRepository.findOne({
+      where: {username: user.username},
+      select: { id: true, name: true, username: true, email: true, document: true, img: true, role: true, is_active: true}
+    })
+
+    if(!infoUser){
+      throw new UnauthorizedException(`User not existe`);
+    }
+
+    return {
+      user: infoUser,
+      token: this.getJwtToken({
+        id: user.id,
+        username: user.username
+      })
+    }
 
   }
 

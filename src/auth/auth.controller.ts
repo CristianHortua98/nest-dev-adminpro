@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, UseGuards, Req } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -47,4 +47,11 @@ export class AuthController {
   signIn(@Body() signInUserDto:SignInUserDto){
     return this.authService.signIn(signInUserDto);
   }
+
+  @UseGuards(AuthGuard)
+  @Get('check-token')
+  checkToken(@Req() request: Request){
+    return this.authService.checkToken(request);
+  }
+
 }

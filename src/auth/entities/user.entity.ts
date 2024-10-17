@@ -1,7 +1,7 @@
 import { IsEmail } from "class-validator";
 import { Doctor } from "src/doctors/entities/doctor.entity";
 import { Hospital } from "src/hospitals/entities/hospital.entity";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BeforeInsert, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('users')
 export class User{
@@ -17,7 +17,8 @@ export class User{
     
     @Column({
         type: 'varchar',
-        length: 20
+        length: 20,
+        unique: true
     })
     username: string;
 
@@ -44,7 +45,8 @@ export class User{
     password: string;
 
     @Column({
-        type: 'varchar'
+        type: 'varchar',
+        nullable: true
     })
     img: string;
 
@@ -71,5 +73,11 @@ export class User{
     //     doctor => doctor.user
     // )
     // doctors: Doctor[];
+
+    @BeforeInsert()
+    checkFieldLower(){
+        this.email = this.email.toLowerCase().trim();
+        this.username = this.username.toLowerCase().trim();
+    }
 
 }

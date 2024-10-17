@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsEmail, IsLowercase, IsNumber, IsNumberString, IsString, Length, Matches, MaxLength, MinLength } from "class-validator";
+import { IsEmail, IsLowercase, IsNumber, IsNumberString, IsOptional, IsString, Length, Matches, Max, MaxLength, Min, MinLength } from "class-validator";
 
 export class CreateUserDto{
 
@@ -17,9 +17,9 @@ export class CreateUserDto{
     @MinLength(5)
     email:string;
 
-    // @Type(() => Number)
-    @IsNumberString()
-    @Length(1, 20)
+    @Type(() => Number)
+    @Min(100000)
+    @Max(99999999999999)
     document: number;
 
 
@@ -33,6 +33,7 @@ export class CreateUserDto{
     password: string;
 
     @IsString()
-    img: string;
+    @IsOptional()
+    img?: string;
 
 }

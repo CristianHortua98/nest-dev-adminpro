@@ -209,7 +209,7 @@ export class AuthService {
   private handleDBError(error: any){
 
     if(error.sqlState === '23000'){
-      throw new BadRequestException(`Email or Document already exist`);
+      throw new BadRequestException(`Email, User or Document already exist`);
     }else{
       console.log(error);
       throw new InternalServerErrorException(`Check Logs Server Errors`);

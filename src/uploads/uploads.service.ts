@@ -47,7 +47,8 @@ export class UploadsService {
                 await this.userRepository.save(user);
 
                 return {
-                    path
+                    path,
+                    filename
                 };
 
             break;
@@ -70,7 +71,8 @@ export class UploadsService {
                 await this.hospitalRepository.save(hospital);
 
                 return {
-                    path
+                    path,
+                    filename
                 };
 
             break;
@@ -93,7 +95,8 @@ export class UploadsService {
                 await this.doctorRepository.save(doctor);
 
                 return {
-                    path
+                    path,
+                    filename
                 };
 
             break;

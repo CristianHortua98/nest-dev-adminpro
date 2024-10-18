@@ -28,6 +28,7 @@ export class UploadsController {
     
   }
 
+  @UseGuards(AuthGuard)  
   @Put(':type/:id')
   // @UseInterceptors(FileInterceptor('file'))
   @UseInterceptors(FileInterceptor('file', {

@@ -6,6 +6,7 @@ import { User } from 'src/auth/entities/user.entity';
 import { Doctor } from 'src/doctors/entities/doctor.entity';
 import { Hospital } from 'src/hospitals/entities/hospital.entity';
 import { Repository } from 'typeorm';
+import * as fs from 'fs-extra';
 
 @Injectable()
 export class UploadsService {
@@ -32,18 +33,22 @@ export class UploadsService {
 
                 const user = await this.userRepository.findOneBy({id: id})
 
-                if(!user){
-                    // console.log(`Not found User: ${id}`);
-                    unlinkSync(join(__dirname, `../../../archivos-admin-pro/uploads/${type}/${filename}`));
+                if (!user) {
                     throw new BadRequestException(`Not found User: ${id}`);
                 }
 
                 let pathOldUser = join(__dirname, `../../../archivos-admin-pro/uploads/${type}/${user.img}`);
 
-                this.deleteFile(pathOldUser);
+                try {
+                    // Elimina la imagen anterior si existe
+                    if (fs.existsSync(pathOldUser)) {
+                        fs.unlinkSync(pathOldUser);
+                    }
+                } catch (error) {
+                    console.error('Error eliminando la imagen anterior:', error);
+                }
                 
                 user.img = filename;
-
                 await this.userRepository.save(user);
 
                 return {

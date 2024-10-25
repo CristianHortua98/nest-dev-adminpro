@@ -3,6 +3,10 @@ import { IsEmail, IsLowercase, IsNumber, IsNumberString, IsOptional, IsString, L
 
 export class CreateUserDto{
 
+    @Type(() => Number)
+    @IsOptional()
+    id?: number;
+
     @IsString()
     @MinLength(5)
     name: string;
@@ -35,5 +39,13 @@ export class CreateUserDto{
     @IsString()
     @IsOptional()
     img?: string;
+
+    @IsString()
+    @IsOptional()
+    role?: string;
+
+    @Type(() => Number)
+    @IsOptional()
+    is_active?: number;
 
 }

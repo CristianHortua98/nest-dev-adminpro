@@ -11,6 +11,7 @@ import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './interfaces/jwt-payload.interfaces';
 import { UserCreateReponse } from './interfaces/user-create.response.interface';
 import * as request from 'supertest';
+import { PaginationDto } from 'src/common/dtos/pagination.dto';
 
 @Injectable()
 export class AuthService {
@@ -141,11 +142,25 @@ export class AuthService {
 
   }
 
-  findAll() {
-    return this.userRepository.find({
+  async findAll(paginationDto:PaginationDto) {
+
+    const { limit = 5, offset = 0 } = paginationDto;
+
+    const users = await this.userRepository.find({
       where: {is_active: 1},
-      select: {id: true, name: true, username: true, email: true, document: true, img: true, role: true, is_active: true}
+      select: {id: true, name: true, username: true, email: true, document: true, img: true, role: true, is_active: true},
+      take: limit,
+      skip: offset
     });
+
+    const totalUser = await this.userRepository.find({
+      where: {is_active: 1}
+    });
+
+    return {
+      totalUser: totalUser.length,
+      users
+    }
   }
 
   async findOne(id: number): Promise<User>{

@@ -41,8 +41,10 @@ export class UploadsService {
 
                 try {
                     // Elimina la imagen anterior si existe
-                    if (fs.existsSync(pathOldUser)) {
-                        fs.unlinkSync(pathOldUser);
+                    if(user.img){
+                        if (fs.existsSync(pathOldUser)) {
+                            fs.unlinkSync(pathOldUser);
+                        }
                     }
                 } catch (error) {
                     console.error('Error eliminando la imagen anterior:', error);

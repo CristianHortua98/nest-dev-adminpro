@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { Hospital } from './entities/hospital.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/auth/entities/user.entity';
+import { PaginationDto } from '../common/dtos/pagination.dto';
 
 @Injectable()
 export class HospitalsService {
@@ -44,9 +45,22 @@ export class HospitalsService {
 
   }
 
-  findAll(): Promise<Hospital[]>{
+  async findAll(paginationDto:PaginationDto){
 
-    return this.hospitalRepository.find();
+    const { limit = 5, offset = 0 } = paginationDto;
+
+    const hospitals = await this.hospitalRepository.find({
+      take: limit, //CANTIDAD REGISTROS A OBTENER // LIMIT
+      skip: offset, //CANTIDAD REGISTROS SE DEBEN SALTAR // DESDE
+      relations: ['user']
+    });
+
+    const totalHospitals = await this.hospitalRepository.find();
+
+    return {
+      totalHospitals: totalHospitals.length,
+      hospitals
+    }
 
   }
 

@@ -17,7 +17,7 @@ export class TodoController {
   
   @Get('tipo/:categoria/:busqueda')
   tipoBusqueda(@Param('categoria') categoria: string, @Param('busqueda') busqueda: string){
-
+    
     return this.todoService.tipoBusqueda(categoria, busqueda);
 
   }

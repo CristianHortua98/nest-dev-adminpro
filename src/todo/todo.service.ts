@@ -69,10 +69,12 @@ export class TodoService {
         break;
 
       case 'hospitals':
-
+        
         data = await this.hospitalRepository.find({
           where: { name: Like(`%${busqueda}%`) }
         });
+
+        break;
 
       default:
         throw new BadRequestException(`Error Parameters Search`);

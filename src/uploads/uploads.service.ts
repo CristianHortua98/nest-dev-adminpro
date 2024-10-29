@@ -65,13 +65,20 @@ export class UploadsService {
                 const hospital = await this.hospitalRepository.findOneBy({id: id});
 
                 if(!hospital){
-                    unlinkSync(join(__dirname, `../../../archivos-admin-pro/uploads/${type}/${filename}`));
                     throw new BadRequestException(`Not found Hospital: ${id}`);
                 }
 
                 let pathOldHospital = join(__dirname, `../../../archivos-admin-pro/uploads/${type}/${hospital.img}`);
 
-                this.deleteFile(pathOldHospital);
+                try {
+                    if(user.img){
+                        if (fs.existsSync(pathOldHospital)) {
+                            fs.unlinkSync(pathOldHospital);
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error eliminando la imagen anterior:', error);
+                }
 
                 hospital.img = filename;
 
@@ -89,13 +96,20 @@ export class UploadsService {
                 const doctor = await this.doctorRepository.findOneBy({id: id});
 
                 if(!doctor){
-                    unlinkSync(join(__dirname, `../../../archivos-admin-pro/uploads/${type}/${filename}`));
                     throw new BadRequestException(`Not found Doctor: ${id}`);
                 }
 
                 let pathOldDoctor = join(__dirname, `../../../archivos-admin-pro/uploads/${type}/${doctor.img}`);
 
-                this.deleteFile(pathOldDoctor);
+                try {
+                    if(user.img){
+                        if (fs.existsSync(pathOldDoctor)) {
+                            fs.unlinkSync(pathOldDoctor);
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error eliminando la imagen anterior:', error);
+                }
 
                 doctor.img = filename;
 

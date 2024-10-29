@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, ParseIntPipe, Query } from '@nestjs/common';
 import { HospitalsService } from './hospitals.service';
 import { CreateHospitalDto } from './dto/create-hospital.dto';
 import { UpdateHospitalDto } from './dto/update-hospital.dto';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
+import { PaginationDto } from 'src/common/dtos/pagination.dto';
 
 @Controller('hospitals')
 @UseGuards(AuthGuard)
@@ -15,8 +16,8 @@ export class HospitalsController {
   }
 
   @Get('list-hospitals')
-  findAll() {
-    return this.hospitalsService.findAll();
+  findAll(@Query() paginationDto:PaginationDto) {
+    return this.hospitalsService.findAll(paginationDto);
   }
 
   @Get(':id')

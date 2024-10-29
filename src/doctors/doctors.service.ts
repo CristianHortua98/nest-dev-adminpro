@@ -58,7 +58,7 @@ export class DoctorsService {
 
   findAll(paginationDto:PaginationDto): Promise<Doctor[]>{
 
-    const { limit = 10, offset = 0 } = paginationDto;
+    const { limit = 5, offset = 0 } = paginationDto;
 
 
     return this.doctorRepository.find({

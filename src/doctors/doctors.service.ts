@@ -56,16 +56,24 @@ export class DoctorsService {
 
   }
 
-  findAll(paginationDto:PaginationDto): Promise<Doctor[]>{
+  async findAll(paginationDto:PaginationDto){
 
     const { limit = 5, offset = 0 } = paginationDto;
 
 
-    return this.doctorRepository.find({
+    const doctors = await this.doctorRepository.find({
       take: limit, //CANTIDAD REGISTROS A OBTENER // LIMIT
       skip: offset, //CANTIDAD REGISTROS SE DEBEN SALTAR // DESDE
       relations: ['hospital', 'user']
     });
+
+    const totalDoctors = await this.doctorRepository.find();
+
+    return {
+      doctors,
+      totalDoctors: totalDoctors.length
+    }
+
   }
 
   listDoctors() {

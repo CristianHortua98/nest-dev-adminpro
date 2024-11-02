@@ -15,7 +15,9 @@ export class Doctor {
     name: string;
     
     @Column({
-        type: 'varchar'
+        type: 'varchar',
+        nullable: true,
+        default: ''
     })
     img: string;
 
@@ -24,7 +26,7 @@ export class Doctor {
         // {eager: true} 
     )
     @JoinColumn({
-        name: 'id_user'
+        name: 'id_user',
     })
     user: User
 
@@ -34,7 +36,7 @@ export class Doctor {
         {onDelete: 'CASCADE'}
     )
     @JoinColumn({
-        name: 'id_hospital'
+        name: 'id_hospital',
     })
     hospital: Hospital
 }

@@ -45,6 +45,12 @@ export class HospitalsService {
 
   }
 
+  async listHospital(){
+
+    return await this.hospitalRepository.find();
+
+  }
+
   async findAll(paginationDto:PaginationDto){
 
     const { limit = 5, offset = 0 } = paginationDto;

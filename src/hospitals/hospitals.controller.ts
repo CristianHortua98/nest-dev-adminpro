@@ -20,6 +20,11 @@ export class HospitalsController {
     return this.hospitalsService.findAll(paginationDto);
   }
 
+  @Get('list')
+  listHospital(){
+    return this.hospitalsService.listHospital();
+  }
+
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.hospitalsService.findOne(id);

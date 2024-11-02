@@ -14,9 +14,11 @@ export class Hospital {
     name: string;
     
     @Column({
-        type: 'varchar'
+        type: 'varchar',
+        nullable: true,
+        default: ""
     })
-    img: string;
+    img?: string;
 
     @ManyToOne(
         () => User,

@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsInt, IsNotEmpty, IsNumber, IsPositive, IsString } from "class-validator";
+import { IsInt, IsNotEmpty, IsNumber, IsOptional, IsPositive, IsString } from "class-validator";
 
 export class CreateDoctorDto {
 
@@ -8,7 +8,8 @@ export class CreateDoctorDto {
     name: string;
 
     @IsString()
-    img: string;
+    @IsOptional()
+    img?: string;
 
     @Type(() => Number)
     @IsInt()

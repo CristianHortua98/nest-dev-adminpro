@@ -5,6 +5,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { SignInUserDto } from './dto/signin-user.dto';
 import { AuthGuard } from './guards/auth.guard';
 import { PaginationDto } from 'src/common/dtos/pagination.dto';
+import { AdminGuard } from './guards/admin.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -18,7 +19,7 @@ export class AuthController {
   }
 
 
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, AdminGuard)
   @Get('users')
   findAll(@Query() paginationDto:PaginationDto) {
     return this.authService.findAll(paginationDto);
@@ -30,7 +31,7 @@ export class AuthController {
     return this.authService.findOne(id);
   }
 
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, AdminGuard)
   @Patch('update-user/:id')
   updateUser(@Param('id', ParseIntPipe) id: number, @Body() updateUserDto:UpdateUserDto){
     return this.authService.updateUser(id, updateUserDto);

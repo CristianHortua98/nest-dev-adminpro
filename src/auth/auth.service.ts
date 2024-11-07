@@ -12,6 +12,7 @@ import { JwtPayload } from './interfaces/jwt-payload.interfaces';
 import { UserCreateReponse } from './interfaces/user-create.response.interface';
 import * as request from 'supertest';
 import { PaginationDto } from 'src/common/dtos/pagination.dto';
+import { getMenuFrontEnd } from './helpers/menu-frontend';
 
 @Injectable()
 export class AuthService {
@@ -54,8 +55,9 @@ export class AuthService {
       user: infoUser,
       token: this.getJwtToken({
         id: infoUser.id,
-        username: infoUser.username
-      })
+        username: infoUser.username,
+      }),
+      menu: getMenuFrontEnd(infoUser.role)
     }
 
 
@@ -79,7 +81,8 @@ export class AuthService {
       token: this.getJwtToken({
         id: user.id,
         username: user.username
-      })
+      }),
+      menu: getMenuFrontEnd(infoUser.role)
     }
 
   }
